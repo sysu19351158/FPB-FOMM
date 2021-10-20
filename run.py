@@ -17,7 +17,7 @@ import dlib
 import torch
 
 from train import train
-from reconstruction import reconstruction
+#from reconstruction import reconstruction
 from animate import animate
 import warnings
 warnings.filterwarnings("ignore")
@@ -37,13 +37,13 @@ if __name__ == "__main__":
     parser.set_defaults(verbose=False)
     opt = parser.parse_args()
     with open(opt.config) as f:
-        config = yaml.load(f)
+        config = yaml.load(f,Loader=yaml.FullLoader)
 
     if opt.checkpoint is not None:
         log_dir = os.path.join(*os.path.split(opt.checkpoint)[:-1])
     else:
         log_dir = os.path.join(opt.log_dir, os.path.basename(opt.config).split('.')[0])
-        log_dir += ' ' + strftime("%d_%m_%y_%H.%M.%S", gmtime())
+        log_dir += '_' + strftime("%d_%m_%y_%H.%M.%S", gmtime())
 
     generator = OcclusionAwareGenerator(**config['model_params']['generator_params'],
                                         **config['model_params']['common_params'])
@@ -86,4 +86,4 @@ if __name__ == "__main__":
         reconstruction(config, generator, kp_detector, opt.checkpoint, log_dir, dataset)
     elif opt.mode == 'animate':
         print("Animate...")
-        animate(config, generator, kp_detector, opt.checkpoint, log_dir, dataset)#kp_detector dataset
+        animate(config, generator, kp_detector, opt.checkpoint, log_dir, dataset)

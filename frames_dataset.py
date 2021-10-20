@@ -11,7 +11,7 @@ from augmentation import AllAugmentationTransform
 import glob
 
 import sys
-sys.path.append(".\modules")
+sys.path.append("./modules")
 
 import torch
 
@@ -97,9 +97,9 @@ class FramesDataset(Dataset):
         else:
             name = self.videos[idx]
             path = os.path.join(self.root_dir, name)
-            for name_ in os.listdir(r".\keypoint_folder"):
+            for name_ in os.listdir(r"./keypoint"):
                 if name in name_:
-                    kp = torch.load(os.path.join(r".\keypoint_folder", name_))
+                    kp = torch.load(os.path.join(r"./keypoint", name_))
         video_name = os.path.basename(path)
 
 
@@ -136,11 +136,11 @@ class FramesDataset(Dataset):
             out['video'] = video.transpose((3, 0, 1, 2))
 
         out['name'] = video_name
-
-        if self.is_train:
-            out['keypoint'] = kp.requires_grad_(True)
-        else:
-            out['keypoint'] = kp.requires_grad_(False)
+        out['keypoint'] = kp.requires_grad_(False)
+        #if self.is_train:
+        #    out['keypoint'] = kp.requires_grad_(True)
+        #else:
+        #    out['keypoint'] = kp.requires_grad_(False)
 
         return out
 

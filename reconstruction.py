@@ -36,10 +36,8 @@ def reconstruction(config, generator, kp_detector, checkpoint, log_dir, dataset)
 
 
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    seg_model = r'D:\homework\shape_predictor_68_face_landmarks.dat'
+    seg_model = r'./shape_predictor_68_face_landmarks.dat'
     predictor = dlib.shape_predictor(seg_model)
-    #！！！！！！！！！！！！！！！！！！！！！！！！！
-
     for it, x in tqdm(enumerate(dataloader)):
         if config['reconstruction_params']['num_videos'] is not None:
             if it > config['reconstruction_params']['num_videos']:

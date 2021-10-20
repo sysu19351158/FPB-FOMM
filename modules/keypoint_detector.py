@@ -3,9 +3,8 @@ import torch
 import torch.nn.functional as F
 from modules.util import Hourglass, make_coordinate_grid, AntiAliasInterpolation2d
 import sys
-sys.path.append(r".\modules")
-from make import make_masks
-# from cropped import feature_generator
+sys.path.append(r"./modules")
+from mask_generator import make_masks
 import matplotlib.pyplot as plt
 class KPDetector(nn.Module):
     """
@@ -16,8 +15,7 @@ class KPDetector(nn.Module):
                  num_blocks, temperature, estimate_jacobian=False, scale_factor=1,
                  single_jacobian_map=False, pad=0):
         super(KPDetector, self).__init__()
-
-        self.predictor = Hourglass(block_expansion, in_features=4,#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        self.predictor = Hourglass(block_expansion, in_features=num_channels+1,
                                    max_features=max_features, num_blocks=num_blocks)
 
         self.kp = nn.Conv2d(in_channels=self.predictor.out_filters, out_channels=num_kp, kernel_size=(7, 7),
@@ -35,23 +33,18 @@ class KPDetector(nn.Module):
         self.scale_factor = scale_factor
         if self.scale_factor != 1:
             self.down = AntiAliasInterpolation2d(num_channels, self.scale_factor)
-        # seg_model = r'D:\homework\shape_predictor_68_face_landmarks.dat'
-        # predictor = dlib.shape_predictor(seg_model)
-        # self.model1 = predictor
+
     def forward(self, x, kp):
         origin_shape = x.shape
         if self.scale_factor != 1:
             x = self.down(x)
-        extract_map=torch.zeros((kp.shape[0],1,64,64)).cuda()
+        extract_map=torch.zeros((kp.shape[0],1,x.shape[2],x.shape[3])).cuda()
         for i in range(origin_shape[0]):
             extract_map[i] = make_masks(kp[i], (origin_shape[2], origin_shape[3]),(x.shape[2], x.shape[3]), 0.75)
-        # plt.imsave("QQQWQWQWQW.jpg", extract_map[0][0].detach().cpu().numpy())
         extract_map=torch.cat((x,extract_map),1)
         feature_map = self.predictor(extract_map)
 
         prediction = self.kp(feature_map)
-
-
 
         final_shape = prediction.shape
         heatmap = prediction.view(final_shape[0], final_shape[1], -1)

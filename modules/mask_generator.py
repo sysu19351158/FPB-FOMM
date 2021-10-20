@@ -1,4 +1,3 @@
-# Written by tzx
 import numpy as np
 import matplotlib.pyplot as plt
 import itertools
@@ -14,7 +13,8 @@ def get_distance_map(points, size, sigma, kpnums):
     np_points = points.detach().numpy()
     gmap1 = gmap1 - np.expand_dims(np_points, 1)
     gmap1 = abs(gmap1)
-    gmap1 = gmap1[:,:,0]+gmap1[:,:,1]
+    #gmap1 = gmap1[:,:,0]+gmap1[:,:,1]
+    gmap1 = (gmap1[:,:,0]**2+gmap1[:,:,1]**2)**0.5
     gmap1 = _gaussian(gmap1,sigma)
     gmap1_max = np.max(gmap1, axis=1)
     gmap1_max = np.expand_dims(gmap1_max, 1)
@@ -29,13 +29,11 @@ def get_distance_map(points, size, sigma, kpnums):
     for i in range(kpnums):
         out+=gmap1[i]
     out = out/out.max()
-    # mean = np.mean(out)
-    # mean = np.expand_dims(mean, 1)
-    # thresh = (out >= mean)
-    # out = out*thresh
+
+
     return out
 
-#keypoints 是在原人脸图片上的检测点， img_size是原图片的大小， feature_size是feature_map的大小, sigma是正态分布的标准差
+
 def make_masks(key_points, img_size, feature_size, sigma):
     key_points = key_points*64/img_size[0]
     point_nums = 18
@@ -53,5 +51,3 @@ if __name__ == '__main__':
     print(a.shape)
     b = a[0]
     make_masks(b, (256,256), (64,64), 1.2)
-    # print(np.array([(64,64), (30,23)]).shape)
-# (456,354)
