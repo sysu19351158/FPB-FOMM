@@ -1,36 +1,18 @@
 # Facial Prior Guided Micro-Expression Generation
-Implementation of **FOMM with AWP** and **MRAA with AWP**.
+Implementation of *FOMM with AWP* and *MRAA with AWP* in [Facial Prior Guided Micro-Expression Generation](https://ieeexplore.ieee.org/document/10375342) (IEEE TIP 2024).
 
 ## 0. Table of Contents
 
 * [0. Table of Contents](#0-table-of-contents)
 
-* [1. Authors & Maintainers](#1-authors---maintainers)
+* [1. Visualizations](#1-visualizations)
 
-* [2. Change Log](#2-change-log)
+* [2. Run the Code](#2-run-the-code)
 
-* [3. Visualizations](#3-visualizations)
+* [3. Citation](#3-citation)
 
-* [4. Run the Code](#4-run-the-code)
 
-* [5. License](#5-license)
-
-  
-
-## 1. Authors & Maintainers
-
-- [Yi Zhang|@zylye123](https://github.com/zylye123)
-- [Xinhua Xu|@sysu19351158](https://github.com/sysu19351158)
-- [Youjun Zhao|@zhaoyjoy](https://github.com/zhaoyjoy)
-- [Yuhang Wen|@Necolizer](https://github.com/Necolizer)
-- [Zixuan Tang|@sysu19351118](https://github.com/sysu19351118)
-
-## 2. Change Log
-
-- [2022/02/18] Upload code.
-- [2023/05/02] + Case Visualizations.
-
-## 3. Visualizations
+## 1. Visualizations
 
 | CASE  |                            Driving                            |                             FOMM                             |                             FOMM w/ EWP                             |                            FOMM w/ AWP                             |                            MRAA                             |                            MRAA w/ AWP                             |
 | :--: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
@@ -44,15 +26,15 @@ Implementation of **FOMM with AWP** and **MRAA with AWP**.
 - Case 1-3: Positive. Case 4: Negative. Case 5: Surprise.
 
 
-## 4. Run the Code
+## 2. Run the Code
 
-1. Operations of FOMM_with_AWP and MRAA_with_AWP are the same.
+1. Procedures of running *FOMM_with_AWP* and *MRAA_with_AWP* are the same.
 
-2. Prepare your dataset. Recommend CASME2, SAMM, SMIC-HS
+2. Prepare your dataset. CASME2, SAMM, and SMIC-HS are recommended. See related preparation instructions in [this repository](https://github.com/Necolizer/Facial-Prior-Based-FOMM).
 
-   Divide into `your_dataset/train` and `your_dataset/test`
+   - Divide into `your_dataset/train` and `your_dataset/test`
 
-   Create or modify `yaml` format file `your_dataset_train.yaml` in `./config`
+   - Create or modify `yaml` format file `your_dataset_train.yaml` in `./config`
 
 3. Train
 
@@ -72,6 +54,30 @@ Implementation of **FOMM with AWP** and **MRAA with AWP**.
    
    Generated videos would be saved in `path/to/checkpoint/animation`
 
-## 5. License
+## 3. Citation
 
-[MIT](https://github.com/sysu19351158/FPB-FOMM/blob/main/LICENSE)
+If you find this work helpful in your research, please consider citing:
+
+```
+@ARTICLE{zhang2024tipfacial,
+   author={Zhang, Yi and Xu, Xinhua and Zhao, Youjun and Wen, Yuhang and Tang, Zixuan and Liu, Mengyuan},
+   journal={IEEE Transactions on Image Processing}, 
+   title={Facial Prior Guided Micro-Expression Generation}, 
+   year={2024},
+   volume={33},
+   number={},
+   pages={525-540},
+   doi={10.1109/TIP.2023.3345177}
+}
+
+@inproceedings{zhang2021acmmmfacial,
+   author = {Zhang, Yi and Zhao, Youjun and Wen, Yuhang and Tang, Zixuan and Xu, Xinhua and Liu, Mengyuan},
+   title = {Facial Prior Based First Order Motion Model for Micro-expression Generation},
+   year = {2021},
+   booktitle = {Proceedings of the 29th ACM International Conference on Multimedia},
+   pages = {4755–4759},
+   numpages = {5},
+   series = {MM '21},
+   doi = {10.1145/3474085.3479211}
+}
+```
